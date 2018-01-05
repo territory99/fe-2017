@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script src="jquery.js"></script>
+<script>
+    $("#btn-danger").popover({
+        html: true,  //实现对html可写
+        title: keywords_title(), //标题函数
+        content: function() {
+            return $('#popover_content_wrapper').html();
+        }
+    });
+    //标题函数
+    function keywords_title() {
+        return '结果说明：';
+    }
+    //内容函数，同时对样式进行修改
+    function keywords_content() {
+        var data = $('<div style="width:700px;color: #787671" ><p><span>提及结果列关键词不区分英文大小写</span></p></div>');
+    }
+    //以下是弹出框样式，可以根据需要自定义修改
+
+</script>
+</body>
+</html>

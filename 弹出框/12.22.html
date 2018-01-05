@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <style>
+#button{
+    margin-top:200px;
+}
+    </style>
+</head>
+<body>
+    <div  id="button" class="btn btn-success" rel="popover" data-original-title="Bootstrap 弹出框">悬停弹出</div>
+    <script src="jquery.js"></script>
+<script src="bootstrap.min.js"></script>
+<script>
+    $(function (){
+        $("#button").popover({
+            placement:'top',
+            trigger: " hover"
+        });
+
+    });
+</script>
+
+</body>
+</html>
