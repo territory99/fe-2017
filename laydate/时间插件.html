@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>datetime</title>
+
+    <script src="laydate.js"></script> <!-- 改成你的路径 -->
+</head>
+<body>
+<div>
+    <span>日期</span>
+    <input id="test1" type="text"/>
+
+</div>
+
+<div>
+    <span>日期时间</span>
+    <input id="test2" type="text"/>
+</div>
+
+<div>
+    <span>日期范围</span>
+    <input id="test3" type="text"/>
+</div>
+
+
+
+</body>
+<script>
+
+  laydate.render({
+    elem: '#test1', //指定元素
+    theme: '#393D49'
+  });
+
+  laydate.render({
+    elem: '#test2', //指定元素
+    type: 'datetime',
+    theme: '#393D49'
+  });
+
+  laydate.render({
+    elem: '#test3', //指定元素
+    type: 'date',
+    theme: '#393D49',
+    range: true
+  });
+
+</script>
+</html>
