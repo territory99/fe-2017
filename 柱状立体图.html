@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+
+    </style>
+</head>
+<body bgcolor="#213350">
+    <svg id="cylinder" width="300px" height="400px"></svg>
+    <script src='jquery.js'></script>
+    <script src='snap.svg-min.js'></script>
+    <script>
+        var height = 100;
+        var k1 = "red";
+        //var color = red;
+       var cylinder = Snap("#cylinder");
+        // 画个长矩形：参数为x坐标，y坐标，宽，高
+
+        var aa = cylinder.rect(70, 20, 100, 345).attr({fill:"#b5b9bc" ,opacity:0.8});
+        var b1 = cylinder .paper.gradient("l(0.5,1,0.2,0.2)#0080FF-#C4E1FF");
+        var bb = cylinder.rect(70, 350-height, 100, height).attr({
+            fill:b1
+        });
+        // 画个小矩形
+       // 画个椭圆：参数圆心坐标x,y，水平半径，竖直半径
+        var d1 = cylinder .paper.gradient("l( 0.2,1 ,1,0.5)#C4E1FF-#66B3FF");
+       var dd = cylinder.ellipse(120,350-height,50,20).attr({
+          fill:d1
+       });
+       var t1 = cylinder .paper.gradient("l( 0.5,1,0.5,0.2)#0080FF-#fff");
+       var tt = cylinder.rect(80, 30, 10, 330).attr({fill:t1,opacity:0.3});
+       var cc = cylinder.ellipse(120,20,50,20).attr({
+           fill:"#cdcdcd"
+       });
+       var ff = cylinder.ellipse(120,360,60,20).attr({
+           fill:"#adb0b7"
+       });
+       var ee = cylinder.ellipse(120,350,50,20).attr({
+           fill:"#0080FF"
+       });
+       // 画个圆：参数圆心坐标x,y，半径
+
+        var f = cylinder.paper.filter('<feGaussianBlur stdDeviation="4"/>');
+        var c = cylinder.circle(120, 333, 33).attr({
+          filter: f
+        });
+
+        var ii = cylinder.circle(120, 330, 32).attr({fill : "#d0d0d0"});
+        // var g1 = cylinder.paper.gradient("l(0, 0, 1, 1)#A7140D-ss#ED4609");
+        var g1 = cylinder.paper.gradient("r(0.5, 1, 1)#ff4D37-#a00");
+        var kk = cylinder.circle(120, 330, 28).attr({fill :g1});
+        var g3 = cylinder.paper.gradient("r(0.5, 0, 1)#fff-#B1B7BC");
+        var kl = cylinder.ellipse(120, 326, 18, 16).attr({fill :g3,opacity:0.3});
+        var g2 = cylinder.paper.gradient("r(0.5, 1, 1)#F94733-#a00");
+        var ka = cylinder.ellipse(120, 332, 26, 15).attr({fill :g2});
+
+
+        
+
+    </script>
+</body>
+</html>
