@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+   var str = "3822777554444213211";
+    function getReplaceNum(str){
+        var num,len = 0;
+        str.replace(/(\d)\1+/g,function($1,$2){
+            if($1.length > len){
+                len = $1.length;
+                num = $2;
+            }
+        });
+        return {
+            len : len,
+            num : num
+        }
+    }
+    getReplaceNum(str);
+/*var str = "382277755444213211";
+  function getReplaceNum(str){
+      var num,len = 0;
+      var s = 1;
+      for(var i=0; i<str.length; i++){
+          if(str[i] === str[i-1]){
+              s++;
+          }else{
+              if(s>len){
+                  len = s;
+                  num = str[i-1];
+              }
+              s= 1;
+          }
+          if(i === str.length-1){
+              if(s>len){
+                  len = s;
+                  num = str[i];
+              }
+          }
+      }
+
+      return {
+          len : len,
+          num : num
+      }
+  }
+  getReplaceNum(str);*/
+</script>
+</body>
+</html>
