@@ -1,0 +1,203 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery UI Sortable - Handle empty lists</title>
+    <link rel="stylesheet" href="./css/jquery-ui.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        table {
+            font-size: 1em;
+        }
+
+        .ui-draggable,
+        .ui-droppable {
+            background-position: top;
+        }
+
+        #sorttable1,
+        #sorttable2,
+        #sorttable3 {
+            list-style-type: none;
+            margin: 0;
+            float: left;
+            margin-right: 10px;
+            background: #eee;
+            padding: 5px;
+            width: 143px;
+        }
+
+        #sorttable1 li,
+        #sorttable2 li,
+        #sorttable3 li {
+            margin: 5px;
+            padding: 5px;
+            font-size: 1.2em;
+            width: 120px;
+        }
+        .close {
+            float: right;
+            color: red;
+            cursor: pointer;
+        }
+        .select1, .select2 {
+            border: 1px solid red;
+        }
+    </style>
+    <script src="./js/jq.js"></script>
+    <script src="./js/jq-ui.js"></script>
+    <script>
+
+        $(function() {
+            function SortTable(container, data) {
+                var $box = container;
+                this.$box = container;
+                this.data = data;
+                this.timer = null;
+                this.init(this.$box);
+                this.watch();
+            }
+            SortTable.prototype.init = function($box){
+                this.data.forEach(function(item) {
+                    var $ul = $("<ul></ul>");
+                    for (var p in item.config) {
+                        $ul.attr(p, item.config[p]);
+                    }
+                    $ul.addClass("sort-table");
+                    item.data.forEach(function(li) {
+                        var $li = $("<li></li>");
+                        $li.addClass(item.config.sub_class);
+                        $li.attr("data-uid", li.id);
+                        $li.attr("data-value", li.value);
+                        var arr = ["<span>",li.value,"</span>","<span class='close'>","x","</span>"].join("");
+                        $li.html(arr);
+                        $ul.append($li);
+                    });
+                    $box.append($ul);
+
+                    $ul.sortable({
+                        connectWith: "ul"
+                    });
+                    $ul.disableSelection();
+                });
+            }
+            SortTable.prototype.update = function(){
+
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                }
+                this.timer = setTimeout(function() {
+                    var data = [];
+                    $(".sort-table").each(function(index, elem) {
+                        var arr = [];
+                        $(elem).children().each(function(index, elem) {
+                            var elem = $(elem);
+                            var obj = {
+                                id: elem.attr("data-uid"),
+                                value: elem.attr("data-value")
+                            };
+                            arr.push(obj);
+                        });
+                        data.push(arr);
+                    });
+                    console.log(data);
+                }, 100);
+            };
+
+            SortTable.prototype.watch = function(){//监听事件
+                $(".sort-table").on("click", ".close", function(event) {// 为关闭按钮添加点击事件
+                    $(this).parent().remove();
+                    $("#sortTable").trigger("sortupdate");// 触发更新事件
+                });
+                this.$box.on("sortupdate", function(event, ui) {// 监听位置更新成功的事件
+                    SortTable.prototype.update();
+                });
+            }
+
+            function SwapTable(container, data) {//声明表格交换类
+                new SortTable(container, data);
+                //this.table1 = table1;
+                //this.table2 = table2;
+                this.btn = null;
+                this.selectArr1 = [];
+                this.selectArr2 = [];
+                this.container = container || document.body;
+                this.init();
+            }
+            SwapTable.prototype.init = function(){//初始化，生成交换按钮 ，添加点击事件
+                this.btn = $("<button class='swap-btn'>swap</button>");
+                var that = this;
+                this.btn.on("click",function(){//点击执行交换
+                    SwapTable.prototype.swap(that);
+                });
+                this.container.append(this.btn);
+                this.select();
+            }
+            SwapTable.prototype.select = function(){//选择，选择添加到selete1或者selete2的类
+                var that = this;
+                this.table1.on("click","li",function(){
+                    $(this).toggleClass("select1");
+                    $("li",that.table2).removeClass("select2");
+                });
+                this.table2.on("click","li",function(){
+                    $(this).toggleClass("select2");
+                    $("li",that.table1).removeClass("select1");
+                });
+            }
+            SwapTable.prototype.swap = function(that){
+                var $select1 = $(".select1").remove();
+                var $select2 = $(".select2").remove();
+                that.table2.append($select1);
+                that.table1.append($select2);
+                $select2.removeClass("select2");
+                $select1.removeClass("select1");
+                SortTable.prototype.update();
+            };
+           // new SwapTable($("#sorttable1"),$("#sorttable3"),$("#sortTable"));
+
+            var data = [{
+                config: {//配置项
+                    className: "droptrue",
+                    id: "sorttable1",
+                    sub_class: "ui-state-default",
+                },
+                data: [
+                    { "id": "1", "value": "item1" },
+                    { "id": "2", "value": "item2" },
+                    { "id": "3", "value": "item3" },
+                    { "id": "4", "value": "item4" }
+                ]
+            },
+                {
+                    config: {
+                        class: "droptrue",
+                        id: "sorttable3",
+                        sub_class: "ui-state-highlight"
+                    },
+                    data: [
+                        { "id": "5", "value": "items1" },
+                        { "id": "6", "value": "items2" },
+                        { "id": "7", "value": "items3" },
+                        { "id": "8", "value": "items4" }
+                    ]
+                }
+            ];
+            var div = $("#sortTable");
+            new SwapTable(div, data);
+        });
+
+    </script>
+</head>
+
+<body>
+<div id="sortTable">
+</div>
+</body>
+
+</html>
